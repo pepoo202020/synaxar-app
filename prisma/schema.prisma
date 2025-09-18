@@ -1,0 +1,55 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum CopticMonths {
+  THOUT
+  PAOPI
+  HATHOR
+  KOIAK
+  TOBI
+  MESHIR
+  PAREMHAT
+  PAREMOUDE
+  PASHONS
+  PAONI
+  EPIP
+  MASORI
+  KOGIENAVOT
+}
+
+model Synaxar {
+  id             String       @id @default(cuid())
+  day            Int
+  month          CopticMonths
+  isSaint        Boolean?     @default(false)
+  isMartyr       Boolean?     @default(false)
+  isOccasion     Boolean?     @default(false)
+  isMain         Boolean?     @default(false)
+  name_ar        String
+  name_en        String
+  name_co        String?
+  description_ar String
+  description_en String
+  description_co String?
+  image          String?
+  slug           String
+  postImage      String?
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  @@index([slug])
+  @@map("synaxar_data")
+}
