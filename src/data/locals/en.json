@@ -1,1 +1,9 @@
-{}
+{
+  "logoTitle": "Synaxar Application For Church",
+  "searchPlaceholder": "Search by saint, date or occasion......",
+  "darkTheme": "Dark Theme",
+  "lightTheme": "Light Theme",
+  "arabicLanguage": "Arabic Language",
+  "englishLanguage": "English Language",
+  "copticLanguage": "Coptic Language"
+}
