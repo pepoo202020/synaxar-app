@@ -1,5 +1,6 @@
 "use client";
 
+import { LanguageProvider } from "./Language-Provider/language-provider";
 import { ThemeProvider } from "./Therme-Provider/theme-provider";
 
 interface IProvidersProps {
@@ -14,7 +15,7 @@ export function Providers({ children }: IProvidersProps) {
       enableSystem
       disableTransitionOnChange
     >
-      {children}
+      <LanguageProvider>{children}</LanguageProvider>
     </ThemeProvider>
   );
 }
