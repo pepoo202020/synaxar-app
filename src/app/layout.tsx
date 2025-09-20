@@ -9,6 +9,7 @@ import {
   Roboto,
 } from "next/font/google";
 import "./globals.css";
+import { Providers } from "@/providers/providers";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -67,7 +68,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${cairo.variable} ${kufam.variable} ${cinzel.variable} ${lora.variable} ${roboto.variable} antialiased dark:bg-blue-950 bg-blue-200`}
       >
-        {children}
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
