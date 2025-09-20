@@ -5,5 +5,7 @@
   "lightTheme": "Light Theme",
   "arabicLanguage": "Arabic Language",
   "englishLanguage": "English Language",
-  "copticLanguage": "Coptic Language"
+  "copticLanguage": "Coptic Language",
+  "applicationName": "Synaxarion program",
+  "applicationDescription": "A program specialized in displaying the Coptic Orthodox Church Synaxarion in a beautiful and attractive view, with modern capabilities to help in creating posts for electronic platforms with an attractive image and more features."
 }

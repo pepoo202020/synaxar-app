@@ -1,3 +1,9 @@
+import PageTitle from "@/components/Home/Page/PageTitle";
+
 export default function HomePage() {
-  return <div>Synaxar Home Page</div>;
+  return (
+    <div className="space-y-5">
+      <PageTitle />
+    </div>
+  );
 }

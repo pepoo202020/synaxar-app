@@ -104,10 +104,8 @@ const Header = () => {
 
       {/* actions */}
       <DropdownMenu>
-        <DropdownMenuTrigger>
-          <Button variant={"outline"}>
-            <GrActions size={30} />
-          </Button>
+        <DropdownMenuTrigger className="border dark:border-white border-blue-950 hover:text-yellow-600 p-2 rounded-2xl transition-all duration-500">
+          <GrActions size={25} />
         </DropdownMenuTrigger>
         <DropdownMenuContent className="max-w-5xl" align="start">
           {filteredMenuItems().map((menuItem) => (
