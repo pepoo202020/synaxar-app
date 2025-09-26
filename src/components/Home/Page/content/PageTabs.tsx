@@ -18,7 +18,7 @@ const PageTabs = ({ tabs, tabIndex, onTabClick }: IPageTabsProps) => {
               "flex items-center justify-center cursor-pointer w-full h-full hover:bg-yellow-600 transition-all duration-700",
               tab.id === tabIndex + 1 && "bg-yellow-600 cursor-auto"
             )}
-            onClick={() => onTabClick(tabIndex - 1)}
+            onClick={() => onTabClick(tab.id - 1)}
           >
             {tab.title}
           </div>

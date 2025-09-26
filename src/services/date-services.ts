@@ -1,4 +1,6 @@
+import { TLanguages } from "@/interfaces/types";
 import CopticMonths from "../data/coptic-months.json";
+import GregorianMonths from "../data/gregorian-months.json";
 
 function isGregorianLeapYear(year: number): boolean {
   return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
@@ -65,9 +67,12 @@ export function gregorianToCopticDate(
   const copticMonth = copticMonthIndex + 1;
   const monthData = CopticMonths.find((m) => m.id === copticMonth);
 
-  const formattedDate: string = `${copticDay} ${
-    monthData![language as keyof typeof monthData]
-  } ${copticYear}`;
+  const formattedDate: string =
+    size === "long"
+      ? `${copticDay} ${
+          monthData![language as keyof typeof monthData]
+        } ${copticYear}`
+      : `${monthData![language as keyof typeof monthData]} ${copticYear}`;
 
   const copticDate = {
     day: copticDay,
@@ -86,15 +91,45 @@ export function copticToGregorianConvert(copticDate: {
   copticYear: number;
   copticMonth: number;
   copticDay: number;
-}) {
-  const gregorianYear = copticDate.copticYear + 283;
-  const copticNewYear = new Date(
-    gregorianYear,
-    8,
-    isGregorianLeapYear(gregorianYear) ? 12 : 11
-  );
-  const daysOffset = copticDate.copticMonth * 30 + (copticDate.copticDay - 1);
-  return new Date(copticNewYear.getTime() + daysOffset * 24 * 60 * 60 * 1000);
+}): Date {
+  // Determine if the Coptic Year is a leap year to get the correct number of days for Nasi.
+  const isCopticLeapYear = copticDate.copticYear % 4 === 3;
+  const daysInMonths = [
+    30,
+    30,
+    30,
+    30,
+    30,
+    30,
+    30,
+    30,
+    30,
+    30,
+    30,
+    30,
+    isCopticLeapYear ? 6 : 5,
+  ];
+
+  // Calculate the total number of days passed in the Coptic year up to the given date.
+  let totalDays = 0;
+  for (let i = 0; i < copticDate.copticMonth - 1; i++) {
+    totalDays += daysInMonths[i];
+  }
+  totalDays += copticDate.copticDay;
+
+  // The base year for conversion is the Coptic year + 284.
+  const gregorianYear = copticDate.copticYear + 284;
+  const startDay = isGregorianLeapYear(gregorianYear) ? 12 : 11;
+  const copticNewYearGregorianDate = new Date(gregorianYear, 8, startDay);
+
+  // Get the base date from the Gregorian equivalent of the Coptic New Year.
+  const finalGregorianDate = new Date(copticNewYearGregorianDate.getTime());
+
+  // Add the total number of days passed to the Gregorian base date.
+  finalGregorianDate.setDate(finalGregorianDate.getDate() + totalDays - 1);
+
+  // Return the final converted date.
+  return finalGregorianDate;
 }
 
 export function getCopticMonthDays(copticYear: number, copticMonth: number) {
@@ -107,4 +142,33 @@ export function getCopticMonthDays(copticYear: number, copticMonth: number) {
     );
   }
   return days;
+}
+
+interface IGregorianMonth {
+  id: number;
+  ar: string;
+  en: string;
+  co: string;
+}
+
+const allGregorianMonths: IGregorianMonth[] = GregorianMonths;
+
+export function gregorianFormatterDate(
+  date: Date,
+  language: TLanguages,
+  size: "long" | "small"
+) {
+  const day = date.getDate();
+  const monthIndex = date.getMonth();
+  const year = date.getFullYear();
+
+  const monthData = allGregorianMonths.find(
+    (month) => month.id === monthIndex + 1
+  );
+  if (!monthData) {
+    throw new Error("invalid month data");
+  }
+  return size === "long"
+    ? `${day}-${monthData[language]}-${year}`
+    : `${monthData[language]}-${year}`;
 }
